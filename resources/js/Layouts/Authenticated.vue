@@ -19,7 +19,7 @@
                                     Dashboard
                                 </BreezeNavLink>
                                 <BreezeNavLink :href="route('blogs')" :active="route().current('blogs')">
-                                    Blogposts
+                                    Blog posts
                                 </BreezeNavLink>
                             </div>
                         </div>

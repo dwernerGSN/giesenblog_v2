@@ -32,14 +32,14 @@ Route::get('/dashboard', function () {
 
 Route::get('/blogs', [BlogController::class, 'index'])->middleware(['auth', 'verified'])->name('blogs');
 
-Route::get('/blogs/{id}', [BlogController::class, 'show']);
+Route::get('blogs/create', [BlogController::class, 'create'])->middleware(['auth', 'verified']);
 
-Route::get('/blogs/create', [BlogController::class, 'create']);
+Route::get('blogs/{id}', [BlogController::class, 'show'])->middleware(['auth', 'verified']);
 
-Route::get('/blogs/{id}/edit', [BlogController::class, 'edit']);
+Route::get('/blogs/{id}/edit', [BlogController::class, 'edit'])->middleware(['auth', 'verified']);
 
-Route::post('blogs/store', [BlogController::class, 'store']);
+Route::post('blogs/store', [BlogController::class, 'store'])->middleware(['auth', 'verified']);
 
-Route::delete('blogs/{id}/delete', [BlogController::class, 'delete']);
+Route::delete('blogs/{id}/delete', [BlogController::class, 'delete'])->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

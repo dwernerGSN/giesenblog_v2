@@ -17,7 +17,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::with('user')->paginate(10);
+        $blogs = Blog::with('user')->paginate();
 
         return Inertia::render('Blog/Index', ['blogs' => $blogs]);
     }
@@ -29,7 +29,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return Inertia::render('blogs/Create');
+        return Inertia::render('Blog/Create');
     }
 
     /**
@@ -47,7 +47,7 @@ class BlogController extends Controller
             ])
         );
 
-        return Redirect::route('blogs.Index');
+        return Redirect::route('blogs.Index')->with('succes', 'Blog geplaatst!');
     }
 
     /**
@@ -58,7 +58,11 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
-        //
+        $id = request('id');
+
+        $post = $blog->with('user')->findOrFail($id);
+
+        return inertia('Blog/Show', ['blog' => $post]);
     }
 
     /**

@@ -1,10 +1,10 @@
 <template>
-      <Head title="Blogposts" />
+      <Head title="Blog posts" />
 
           <BreezeAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Blogposts
+                Blog posts
             </h2>
 
         </template>
@@ -25,8 +25,7 @@
                         <td>{{blog.user.name}}</td>
                         <td>{{blog.title}}</td>
                         <td>{{blog.created_at}}</td>
-                        <button>aanpassen</button>
-                        <button>verwijderen</button>
+                        <Button @click="destroy(blogs.id)">verwijderen</Button>
                         </tr>
                     </tbody>
                     </table>
@@ -49,6 +48,11 @@ export default {
         props: {
         blogs: Object,
     },
+    methods: {
+        destroy(id){
+            this.$inertia.delete(route("blogs.destroy", id));
+        }
+    }
 }
 </script>
 
