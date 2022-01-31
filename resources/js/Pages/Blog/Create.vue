@@ -20,7 +20,9 @@
                     <p class="text-gray-400">plaats een nieuw bericht op Giesenblog</p>
                     </div>
                     <div>
-                    <form action="" method="POST">
+                    <form action="../blogs/store" method="POST">
+                <input type="hidden" name="_token" :value="csrf">
+
                         <div class="mb-6">
                         </div>
                         <div class="mb-6">
@@ -40,7 +42,7 @@
 
                         <textarea
                             rows="5"
-                            name="message"
+                            name="excerpt"
                             placeholder="Uw bericht"
                             class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md  focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
                             required
@@ -75,6 +77,9 @@ export default {
         BreezeAuthenticatedLayout,
         Head,
     },
+      data: () => ({
+            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          }),
 }
 </script>
 

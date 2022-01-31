@@ -25,20 +25,23 @@
                         <td>{{blog.user.name}}</td>
                         <td>{{blog.title}}</td>
                         <td>{{blog.created_at}}</td>
-                        <Button @click="destroy(blogs.id)">verwijderen</Button>
+                        <a :href="'/blogs/'+blog.id">Lees</a>
+                        <a :href="'/blogs/'+blog.id+'/edit'">Aanpassen</a>
+                        <a :href="'/blogs/'+blog.id+'/delete'">Verwijderen</a>
+
                         </tr>
                     </tbody>
                     </table>
                 </div>
+               <a href="../blogs/create">Nieuwe blog maken</a>
             </div>
         </div>
     </BreezeAuthenticatedLayout>
 </template>
 
 <script>
-import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue'
+import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head } from '@inertiajs/inertia-vue3';
-import Button from '@/Components/Button.vue';
 
 export default {
     components: {
@@ -48,11 +51,6 @@ export default {
         props: {
         blogs: Object,
     },
-    methods: {
-        destroy(id){
-            this.$inertia.delete(route("blogs.destroy", id));
-        }
-    }
 }
 </script>
 

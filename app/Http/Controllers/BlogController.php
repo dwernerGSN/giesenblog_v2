@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
 
@@ -29,7 +31,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Blog/Create');
+        return inertia('Blog/Create');
     }
 
     /**
@@ -46,8 +48,7 @@ class BlogController extends Controller
                 'excerpt' => ['required'],
             ])
         );
-
-        return Redirect::route('blogs.Index')->with('succes', 'Blog geplaatst!');
+        return redirect('/blogs')->with('succes','opgeslagen');
     }
 
     /**
@@ -60,7 +61,7 @@ class BlogController extends Controller
     {
         $id = request('id');
 
-        $post = $blog->with('user')->findOrFail($id);
+        $post = $blog->with('user', 'comments.user')->findOrFail($id);
 
         return inertia('Blog/Show', ['blog' => $post]);
     }
@@ -73,7 +74,11 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        return Inertia::render('blogs/Edit');
+        $id = request('id');
+
+        $post = $blog->with('user')->findOrFail($id);
+
+        return inertia('Blog/Edit', ['blog' => $post]);
     }
 
     /**
@@ -85,7 +90,15 @@ class BlogController extends Controller
      */
     public function update(Request $request, Blog $blog)
     {
-        //
+        //dd($blog, $request);
+        $request->validate([
+            'title' => 'required',
+            'excerpt' => 'required',
+        ]);
+
+        $blog->update($request->all());
+
+        return redirect('/blogs')->with('succes', 'wijziging opgeslagen');
     }
 
     /**
@@ -94,10 +107,11 @@ class BlogController extends Controller
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Blog $blog)
+    public function destroy(int $blogId)
     {
-        $blog->delete();
+        $blog = Blog::findOrFail($blogId);
 
-        return Redirect::route('blog.Index');
+        $blog->delete();
+        return redirect('/blogs')->with('succes', 'blog post succesvol verwijdert');
     }
 }

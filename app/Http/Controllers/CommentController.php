@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class CommentController extends Controller
@@ -25,7 +26,7 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -36,7 +37,13 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Comment::create(
+            $request->validate([
+                'excerpt' => ['required'],
+                'blog_id' => ['required'],
+            ])
+        );
+        return redirect('/blogs/' . request('blog_id'))->with('succes', 'opgeslagen');
     }
 
     /**
@@ -81,6 +88,7 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        $comment->delete();
+        return back()->withInput();
     }
 }

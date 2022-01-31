@@ -38,8 +38,15 @@ Route::get('blogs/{id}', [BlogController::class, 'show'])->middleware(['auth', '
 
 Route::get('/blogs/{id}/edit', [BlogController::class, 'edit'])->middleware(['auth', 'verified']);
 
+Route::put('/blogs/{blog}/update', [BlogController::class, 'update'])->middleware('auth', 'verified')->name('blog.update');
+
 Route::post('blogs/store', [BlogController::class, 'store'])->middleware(['auth', 'verified']);
 
-Route::delete('blogs/{id}/delete', [BlogController::class, 'delete'])->middleware(['auth', 'verified']);
+Route::get('blogs/{blog}/delete', [BlogController::class, 'destroy'])->middleware(['auth', 'verified']);
+
+Route::post('comment/store', [CommentController::class, 'store'])->middleware(['auth', 'verified']);
+
+Route::get('comment/{comment}/delete', [CommentController::class, 'destroy'])->middleware(['auth', 'verified']);
+
 
 require __DIR__.'/auth.php';
