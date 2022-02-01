@@ -25,16 +25,18 @@
             <input type="hidden" name="blog_id" :value="blog.id">
             <label for="excerpt">plaats reactie</label><br>
             <input type="text" id="react" name="excerpt"><br>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Toevoegen">
             </form>
 
           <h1>Reacties</h1>
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div v-for="comments in blog.comments">
-                <p>{{comments.user.name}}</p>
-                <p>{{comments.excerpt}}</p>
-                <a :href="'/comment/'+comments.id+'/delete'">Verwijderen</a>
-                <a href="">Aanpassen</a>
+            <div v-for="comments in blog.comments" :key="comments.value">
+                <form action="/comment/update">
+                    <p>{{comments.user.name}}</p>
+                    <input type="text" :value="comments.excerpt">
+                    <a :href="'/comment/'+comments.id+'/delete'">Verwijderen</a>
+                    <a :href="'/comment/'+comment.id+'/update'">Aanpassen</a>
+                </form>
                 <br>
             </div>
         </div>

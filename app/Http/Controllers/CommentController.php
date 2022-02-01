@@ -77,7 +77,13 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        //
+        $request->validate([
+            'excerpt' => 'required',
+        ]);
+
+        $comment->update($request->all());
+
+        return redirect('/blogs')->with('succes', 'wijziging opgeslagen');
     }
 
     /**

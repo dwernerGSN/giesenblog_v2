@@ -30,6 +30,8 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+//blogs
+
 Route::get('/blogs', [BlogController::class, 'index'])->middleware(['auth', 'verified'])->name('blogs');
 
 Route::get('blogs/create', [BlogController::class, 'create'])->middleware(['auth', 'verified']);
@@ -44,9 +46,14 @@ Route::post('blogs/store', [BlogController::class, 'store'])->middleware(['auth'
 
 Route::get('blogs/{blog}/delete', [BlogController::class, 'destroy'])->middleware(['auth', 'verified']);
 
+//comments
+
 Route::post('comment/store', [CommentController::class, 'store'])->middleware(['auth', 'verified']);
 
 Route::get('comment/{comment}/delete', [CommentController::class, 'destroy'])->middleware(['auth', 'verified']);
+
+Route::get('comment/{comment}/update', [CommentController::class, 'update'])->middleware(['auth', 'verified']);
+
 
 
 require __DIR__.'/auth.php';

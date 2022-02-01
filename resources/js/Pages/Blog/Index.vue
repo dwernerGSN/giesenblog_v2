@@ -28,7 +28,6 @@
                         <a :href="'/blogs/'+blog.id">Lees</a>
                         <a :href="'/blogs/'+blog.id+'/edit'">Aanpassen</a>
                         <a :href="'/blogs/'+blog.id+'/delete'">Verwijderen</a>
-
                         </tr>
                     </tbody>
                     </table>
