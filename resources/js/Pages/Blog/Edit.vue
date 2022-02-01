@@ -79,7 +79,6 @@ export default {
             title: props.blog.title,
             excerpt: props.blog.excerpt,
         })
-
         return {form}
     },
     components: {

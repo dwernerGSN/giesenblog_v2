@@ -26,8 +26,10 @@
                         <td>{{blog.title}}</td>
                         <td>{{blog.created_at}}</td>
                         <a :href="'/blogs/'+blog.id">Lees</a>
+                        <span v-if="blog.user.id == current_user">
                         <a :href="'/blogs/'+blog.id+'/edit'">Aanpassen</a>
                         <a :href="'/blogs/'+blog.id+'/delete'">Verwijderen</a>
+                        </span>
                         </tr>
                     </tbody>
                     </table>
@@ -49,6 +51,7 @@ export default {
     },
         props: {
         blogs: Object,
+        current_user: BigInt,
     },
 }
 </script>

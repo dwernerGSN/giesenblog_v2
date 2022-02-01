@@ -43,7 +43,7 @@ class CommentController extends Controller
                 'blog_id' => ['required'],
             ])
         );
-        return redirect('/blogs/' . request('blog_id'))->with('succes', 'opgeslagen');
+        return back()->withInput();
     }
 
     /**
@@ -77,13 +77,14 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
+        //dd($request->all());
         $request->validate([
             'excerpt' => 'required',
         ]);
 
         $comment->update($request->all());
 
-        return redirect('/blogs')->with('succes', 'wijziging opgeslagen');
+        return back()->withInput();
     }
 
     /**

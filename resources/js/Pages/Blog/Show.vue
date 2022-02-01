@@ -23,19 +23,26 @@
           <form action="/comment/store" method="POST">
             <input type="hidden" name="_token" :value="csrf">
             <input type="hidden" name="blog_id" :value="blog.id">
-            <label for="excerpt">plaats reactie</label><br>
+            <label for="excerpt">plaats reactie als <b>{{blog.user.name}}</b></label><br>
             <input type="text" id="react" name="excerpt"><br>
-            <input type="submit" value="Toevoegen">
-            </form>
+            <input type="submit" value="plaatsen">
+            </form><br>
 
           <h1>Reacties</h1>
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div v-for="comments in blog.comments" :key="comments.value">
-                <form action="/comment/update">
-                    <p>{{comments.user.name}}</p>
-                    <input type="text" :value="comments.excerpt">
-                    <a :href="'/comment/'+comments.id+'/delete'">Verwijderen</a>
-                    <a :href="'/comment/'+comment.id+'/update'">Aanpassen</a>
+            <div v-for="comment in blog.comments" :key="comment.id">
+                <form @submit.prevent="editComment(comment)">
+                    <p>{{comment.user.name}}</p>
+                    <input type="text" v-model="comment.excerpt">
+                    <span v-if="current_user == comment.user.id">
+                    <a :href="'/comment/'+comment.id+'/delete'">Verwijderen</a>
+                     <button
+                            type="submit"
+                            class="w-full px-2 py-4 text-white bg-indigo-500 rounded-md  focus:bg-indigo-600 focus:outline-none"
+                        >
+                            Aanpasssen
+                    </button>
+                    </span>
                 </form>
                 <br>
             </div>
@@ -48,6 +55,7 @@
 <script>
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import { Head } from "@inertiajs/inertia-vue3";
+import { useForm } from '@inertiajs/inertia-vue3';
 
 export default {
   components: {
@@ -56,10 +64,23 @@ export default {
   },
   props: {
     blog: Object,
+    current_user: BigInt,
   },
    data: () => ({
-    csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        form: useForm({
+            id: '',
+            excerpt: ''
+        })
   }),
+  methods: {
+      editComment(comment){
+          this.form.id = comment.id
+          this.form.excerpt = comment.excerpt
+
+          this.form.put(route('comment.update',comment.id))
+      }
+  }
 };
 </script>
 

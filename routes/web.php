@@ -52,7 +52,7 @@ Route::post('comment/store', [CommentController::class, 'store'])->middleware(['
 
 Route::get('comment/{comment}/delete', [CommentController::class, 'destroy'])->middleware(['auth', 'verified']);
 
-Route::get('comment/{comment}/update', [CommentController::class, 'update'])->middleware(['auth', 'verified']);
+Route::put('comment/{comment}/update', [CommentController::class, 'update'])->middleware(['auth', 'verified'])->name('comment.update');
 
 
 

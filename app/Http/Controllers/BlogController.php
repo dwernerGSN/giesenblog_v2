@@ -21,7 +21,7 @@ class BlogController extends Controller
     {
         $blogs = Blog::with('user')->paginate();
 
-        return Inertia::render('Blog/Index', ['blogs' => $blogs]);
+        return Inertia::render('Blog/Index', ['blogs' => $blogs, 'current_user'=>Auth::id()]);
     }
 
     /**
@@ -63,7 +63,7 @@ class BlogController extends Controller
 
         $post = $blog->with('user', 'comments.user')->findOrFail($id);
 
-        return inertia('Blog/Show', ['blog' => $post]);
+        return inertia('Blog/Show', ['blog' => $post, 'current_user'=>Auth::id()]);
     }
 
     /**
